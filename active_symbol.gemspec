@@ -9,8 +9,13 @@ Gem::Specification.new do |spec|
   spec.authors       = ["David Heitzman"]
   spec.email         = ["daveheitzman@yahoo.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = %q{Adds methods to symbols that allow easy generation of active record queries. }
+  spec.description   = %q{ 
+    The active record query interface doesn't support easy creation of queries to do anything
+    other than matching by equality, or generating IN queries. 
+
+    Inspired by mongo, active_symbol adds the ability to easily generate more advanced queries. 
+  }
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
@@ -33,4 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "rails", "~> 5.1"
+  spec.add_development_dependency "sqlite3"
 end
