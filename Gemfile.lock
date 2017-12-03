@@ -44,7 +44,9 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (8.0.0)
+    awesome_print (1.8.0)
     builder (3.2.3)
+    byebug (9.1.0)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
     diff-lcs (1.3)
@@ -126,7 +128,9 @@ PLATFORMS
 
 DEPENDENCIES
   active_symbol!
+  awesome_print
   bundler (~> 1.16)
+  byebug
   rails (~> 5.1)
   rake (~> 10.0)
   rspec (~> 3.0)
