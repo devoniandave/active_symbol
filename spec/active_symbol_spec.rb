@@ -38,4 +38,19 @@ RSpec.describe ActiveSymbol do
     expect(actual).to eq(expected)
   end
 
+
+  it "with multiple hash args, generates correct sql for :symbol.gt" do
+    # byebug
+    actual = Mixin.where( :children_count.gt => 38291, :children_count.gt => 234324 ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"children_count\" > 38291"
+    expect(actual).to eq(expected)
+  end
+
+  it "generates correct sql for :symbol.lt" do
+    # byebug
+    actual = Mixin.where( :children_count.lt => 38291 ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"children_count\" < 38291"
+    expect(actual).to eq(expected)
+  end
+
 end

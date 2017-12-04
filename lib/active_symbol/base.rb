@@ -64,6 +64,18 @@ module ActiveSymbol
       STDOUT.puts "to_sym called" 
       self
     end 
+
+    ##########
+
+    #<Arel::Nodes::BindParam:0x00563b484adf38 @value=#<ActiveRecord::Relation::QueryAttribute:0x00563b484adf60 @name=#<ActiveSymbol:0x00563b48464298 @sanitized_string="author_id", @raw_string="author_id", @predicate_method=:lt, @symbol=:author_id>, @value_before_type_cast=38291, @type=#<ActiveModel::Type::Value:0x00563b4895ee38 @precision=nil, @scale=nil, @limit=nil>, @original_attribute=nil>>
+    def build_bind_attribute(attribute,value)
+     # 59        attr = Relation::QueryAttribute.new(column_name.to_s, value, table.type(column_name))
+     # 60:       Arel::Nodes::BindParam.new(attr)
+      attr = ActiveRecord::Relation::QueryAttribute.new(attribute.name.to_s, value, nil)
+      # bind_param=Arel::Nodes::BindParam.new()
+      # byebug
+      bind_param=Arel::Nodes::BindParam.new()
+    end 
   end 
 end 
 
