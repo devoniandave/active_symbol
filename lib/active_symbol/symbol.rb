@@ -22,6 +22,10 @@ class Symbol
     ActiveSymbol::Base.new(self, :lteq)
   end
   alias :lte :lteq
+  def in
+    ActiveSymbol::Base.new(self, :within)
+  end
+  alias :within :in
 
 
 #     def not_eq_any others
