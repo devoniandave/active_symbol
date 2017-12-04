@@ -13,51 +13,13 @@
 # require "models/treasure"
 # require "models/vertex"
 
-require 'active_record'
 require 'active_symbol'
 
-#################################################################################
-# 
-#   DB setup code thanks to acts_as_tree gem 
-#   https://github.com/amerine/acts_as_tree
-# 
-#################################################################################
-
-ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
-
-def setup_db(options = {})
-  # AR keeps printing annoying schema statements
-  capture_stdout do
-  end
-    ActiveRecord::Base.logger
-    ActiveRecord::Schema.define(version: 1) do
-      create_table :mixins, force: true do |t|
-        t.column :type, :string
-        t.column :parent_id, :integer
-        t.column :external_id, :integer if options[:external_ids]
-        t.column :external_parent_id, :integer if options[:external_ids]
-        t.column :children_count, :integer, default: 0 if options[:counter_cache]
-        t.timestamps null: false
-      end
-
-      create_table :level_mixins, force: true do |t|
-        t.column :level, :string
-        t.column :parent_id, :integer
-        t.timestamps null: false
-      end
-    end
-
-    # Fix broken reset_column_information in some activerecord versions.
-    if ActiveRecord::VERSION::MAJOR == 3 && ActiveRecord::VERSION::MINOR == 2 ||
-       ActiveRecord::VERSION::MAJOR == 4 && ActiveRecord::VERSION::MINOR == 1
-      ActiveRecord::Base.connection.schema_cache.clear!
-    end
-end
 class Mixin < ActiveRecord::Base
 end 
 Mixin.reset_column_information
 
-setup_db
+# setup_db
 
 RSpec.describe ActiveSymbol do
   it "has a version number" do
@@ -70,8 +32,9 @@ RSpec.describe ActiveSymbol do
 
 
   it "generates correct sql for :symbol.gt" do
+    # byebug
     actual = Mixin.where( :children_count.gt => 38291 ).to_sql 
-    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"author_id\" > 38291"
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"children_count\" > 38291"
     expect(actual).to eq(expected)
   end
 
