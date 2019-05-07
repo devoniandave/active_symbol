@@ -11,6 +11,7 @@ def capture_stdout(&block)
 ensure
   $stdout = real_stdout
 end
+
 #################################################################################
 # 
 #   DB setup code thanks to acts_as_tree gem 
@@ -18,7 +19,11 @@ end
 # 
 #################################################################################
 
-ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
+# ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
+ActiveRecord::Base.establish_connection adapter: "postgresql", 
+  database: "lens_api_test",
+  username: :lens_api_test, password: :lens_api_test
+
 
 def setup_db(options = {})
   # AR keeps printing annoying schema statements
