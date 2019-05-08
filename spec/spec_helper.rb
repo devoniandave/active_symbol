@@ -21,8 +21,8 @@ end
 
 # ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 ActiveRecord::Base.establish_connection adapter: "postgresql", 
-  database: "lens_api_test",
-  username: :lens_api_test, password: :lens_api_test
+  database: "active_symbol_test", host: "127.0.0.1",
+  username: :active_symbol_test, password: :active_symbol_test
 
 
 def setup_db(options = {})

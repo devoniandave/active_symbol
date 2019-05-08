@@ -15,8 +15,18 @@
 
 require 'active_symbol'
 
+
+MyCustomDateRange = Struct.new(:start, :end)
+handler = proc do |column, range|
+  Arel::Nodes::Between.new(column,
+    Arel::Nodes::And.new([range.start, range.end])
+  )
+end
+ActiveRecord::PredicateBuilder.new("mixins").register_handler(MyCustomDateRange, handler)
+
+
 class Mixin < ActiveRecord::Base
-end 
+end
 Mixin.reset_column_information
 
 # setup_db
@@ -30,6 +40,16 @@ RSpec.describe ActiveSymbol do
     expect(false).to eq(true)
   end
 
+
+  it "generates correct sql when using custom handler" do
+    # byebug
+    ranje = MyCustomDateRange.new( start: 100.days.ago, end: Time.now)
+
+    expect(ranje.is_a?( MyCustomDateRange) ).to eq(true)
+    # expect(ranje === MyCustomDateRange).to eq(true)
+    actual = Mixin.where( :created_at => ranje ).to_sql 
+    expect(actual).to include("BETWEEN")
+  end
 
   it "generates correct sql for :symbol.gt" do
     # byebug

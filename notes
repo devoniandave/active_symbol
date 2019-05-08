@@ -1,0 +1,49 @@
+on invoking MyModel.where(:age=>5) -> 
+
+active_record/relation/query_methods.rb
+  def where(opts = :chain, *rest)
+    if :chain == opts
+      WhereChain.new(spawn)
+    elsif opts.blank?
+      self
+    else
+      spawn.where!(opts, *rest)
+    end
+  end
+
+  def where!(opts, *rest) # :nodoc:
+    opts = sanitize_forbidden_attributes(opts) # sanitize_for_mass_assignment
+
+      # active_model/forbidden_attributes_protection
+      def sanitize_for_mass_assignment(attributes)
+        if attributes.respond_to?(:permitted?)
+          raise ActiveModel::ForbiddenAttributesError if !attributes.permitted?
+          attributes.to_h
+        else
+          attributes
+        end
+      end
+      alias :sanitize_forbidden_attributes :sanitize_for_mass_assignment
+
+    references!(PredicateBuilder.references(opts)) if Hash === opts
+    # figures out which foreign tables must be referenced to create the query
+      172: 
+      def references!(*table_names) # :nodoc:
+        table_names.flatten!
+        table_names.map!(&:to_s)
+
+        self.references_values |= table_names
+        self
+      end
+# active_model/forbidden_attributes_protection
+
+    self.where_clause += where_clause_factory.build(opts, rest)
+
+1188: def where_clause_factory
+        @where_clause_factory ||= Relation::WhereClauseFactory.new(klass, predicate_builder)
+      end
+      alias having_clause_factory where_clause_factory
+      
+
+    self
+  end
