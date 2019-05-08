@@ -7,9 +7,13 @@ module ActiveRecord
           fyi = nil 
           case attribute.name.predicate_method.to_s
           when "like"
-            fyi=attribute.send("matches", value)
+            fyi=attribute.send("matches", value, nil, true)
           when "ilike"
-            fyi=attribute.send("matches", value)
+            fyi=attribute.send("matches", value, nil, false)
+          when "not_like"
+            fyi=attribute.send("does_not_match", value, nil, true)
+          when "not_ilike"
+            fyi=attribute.send("does_not_match", value, nil, false)
           else
             fyi=attribute.send(attribute.name.predicate_method, value)
             fyi.left.name=attribute.name.sanitized_string        

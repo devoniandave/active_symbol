@@ -102,22 +102,28 @@ RSpec.describe ActiveSymbol do
   end
 
   it "generates correct sql for :symbol.not_like" do
-    actual = Mixin.where( :type.like => "thing" ).to_sql 
+    actual = Mixin.where( :type.not_like => "thing" ).to_sql 
     expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" NOT LIKE 'thing'"
     expect(actual).to eq(expected)
   end
 
   it "generates correct sql for :symbol.not_ilike" do
-    actual = Mixin.where( :type.ilike => "thing" ).to_sql 
+    actual = Mixin.where( :type.not_ilike => "thing" ).to_sql 
     expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" NOT ILIKE 'thing'"
     expect(actual).to eq(expected)
   end
 
-  it "generates correct sql for :symbol => like thing" do
-    actual = Mixin.where( ["type LIKE ?", "%thing%"] ).to_sql 
-    # actual = Mixin.where( :type => "%thing%" ).to_sql 
-    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" LIKE '%thing%'"
+  it "generates correct sql for :symbol.not_ilike" do
+    actual = Mixin.where( :type.not_ilike => "thing" ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" NOT ILIKE 'thing'"
     expect(actual).to eq(expected)
   end
+
+  # it "generates correct sql for :symbol => like thing" do
+  #   actual = Mixin.where( ["type LIKE ?", "%thing%"] ).to_sql 
+  #   # actual = Mixin.where( :type => "%thing%" ).to_sql 
+  #   expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" LIKE '%thing%'"
+  #   expect(actual).to eq(expected)
+  # end
 
 end
