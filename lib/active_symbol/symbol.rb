@@ -1,5 +1,21 @@
 class Symbol
 
+  def like
+    ActiveSymbol::Base.new(self, :like)
+  end
+
+  def ilike
+    ActiveSymbol::Base.new(self, :ilike)
+  end
+
+  def not_like
+    ActiveSymbol::Base.new(self, :not_like)
+  end
+
+  def not_ilike
+    ActiveSymbol::Base.new(self, :not_ilike)
+  end
+  
   def not_eq
     ActiveSymbol::Base.new(self, :not_eq)
   end

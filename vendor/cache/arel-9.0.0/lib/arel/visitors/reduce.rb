@@ -12,9 +12,6 @@ module Arel
 
       def visit object, collector
         dispatch_method = dispatch[object.class]
-        # byebug
-        # puts "#{dispatch_method}, #{object}, #{collector}"
-        # byebug if object.name=="mixins"
         send dispatch_method, object, collector
       rescue NoMethodError => e
         raise e if respond_to?(dispatch_method, true)
