@@ -24,19 +24,20 @@ ActiveRecord::Base.establish_connection adapter: "postgresql",
   database: "active_symbol_test", host: "127.0.0.1",
   username: :active_symbol_test, password: :active_symbol_test
 
-
 def setup_db(options = {})
   # AR keeps printing annoying schema statements
   capture_stdout do
   end
     ActiveRecord::Base.logger
     ActiveRecord::Schema.define(version: 1) do
+      drop_table :mixins
+      drop_table :level_mixins
       create_table :mixins, force: true do |t|
         t.column :type, :string
         t.column :parent_id, :integer
-        t.column :external_id, :integer if options[:external_ids]
-        t.column :external_parent_id, :integer if options[:external_ids]
-        t.column :children_count, :integer, default: 0 if options[:counter_cache]
+        t.column :external_id, :integer  #if options[:external_ids]
+        t.column :external_parent_id, :integer #if options[:external_ids]
+        t.column :children_count, :integer, default: 0 #if options[:counter_cache]
         t.timestamps null: false
       end
 
