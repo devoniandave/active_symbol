@@ -4,22 +4,12 @@ module ActiveRecord
       alias :__original_call__ :call
       def call(attribute, value)
         if attribute.name.is_a?(ActiveSymbol::Base)
-          fyi = nil 
-          case attribute.name.predicate_method.to_s
-          when "like"
-            fyi=attribute.send("matches", value, nil, true)
-          when "ilike"
-            fyi=attribute.send("matches", value, nil, false)
-          when "not_like"
-            fyi=attribute.send("does_not_match", value, nil, true)
-          when "not_ilike"
-            fyi=attribute.send("does_not_match", value, nil, false)
-          else
-            fyi=attribute.send(attribute.name.predicate_method, value)
-            fyi.left.name=attribute.name.sanitized_string        
-          end
-          return fyi
+          attribute.name.handle_attribute( attribute, value )
         else
+          # def call(attribute, value)
+          #   bind = predicate_builder.build_bind_attribute(attribute.name, value)
+          #   attribute.eq(bind)
+          # end
           original_output=__original_call__(attribute,value)
         end 
       end

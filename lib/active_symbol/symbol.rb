@@ -1,4 +1,7 @@
 class Symbol
+  def eq(bind)
+    byebug
+  end
 
   def like
     ActiveSymbol::Base.new(self, :like)
@@ -38,6 +41,7 @@ class Symbol
     ActiveSymbol::Base.new(self, :lteq)
   end
   alias :lte :lteq
+
   def in
     ActiveSymbol::Base.new(self, :within)
   end

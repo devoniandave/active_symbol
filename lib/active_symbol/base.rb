@@ -37,8 +37,26 @@ module ActiveSymbol
 
     def to_sym
       self
-    end 
-    
+    end
+
+    def handle_attribute(attribute,value)
+      fyi = nil 
+      pms = predicate_method.to_s
+      case pms
+      when "like"
+        fyi=attribute.send("matches", value, nil, true)
+      when "ilike"
+        fyi=attribute.send("matches", value, nil, false)
+      when "not_like"
+        fyi=attribute.send("does_not_match", value, nil, true)
+      when "not_ilike"
+        fyi=attribute.send("does_not_match", value, nil, false)
+      else
+        fyi=attribute.send(pms, value)
+      end
+      fyi.left.name = sanitized_string        
+      return fyi
+    end
     ##########
 
     #<Arel::Nodes::BindParam:0x00563b484adf38 @value=#<ActiveRecord::Relation::QueryAttribute:0x00563b484adf60 @name=#<ActiveSymbol:0x00563b48464298 @sanitized_string="author_id", @raw_string="author_id", @predicate_method=:lt, @symbol=:author_id>, @value_before_type_cast=38291, @type=#<ActiveModel::Type::Value:0x00563b4895ee38 @precision=nil, @scale=nil, @limit=nil>, @original_attribute=nil>>
