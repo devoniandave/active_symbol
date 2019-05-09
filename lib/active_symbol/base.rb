@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-require 'byebug'
-require 'awesome_print'
+unless defined?(Rails)
+  require 'byebug'
+  require 'awesome_print'
+end
 
 module ActiveSymbol
   class Base
@@ -39,11 +41,12 @@ module ActiveSymbol
       self
     end
 
-    def handle_attribute(attribute,value)
+    def handle_attribute( attribute, value )
       fyi = nil 
       pms = predicate_method.to_s
       case pms
       when "like"
+        # def matches other, escape = nil, case_sensitive = false
         fyi=attribute.send("matches", value, nil, true)
       when "ilike"
         fyi=attribute.send("matches", value, nil, false)

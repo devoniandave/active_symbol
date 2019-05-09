@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 5.1", path: "../rails"
+gem "rails", "~> 5.2", path: "../rails"
 gem "arel", "= 9.0.0", path: "/home/dheitzman/code/rubeh/active_symbol/vendor/cache/arel-9.0.0"
 # git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 

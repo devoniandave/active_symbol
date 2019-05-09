@@ -119,6 +119,25 @@ RSpec.describe ActiveSymbol do
     expect(actual).to eq(expected)
   end
 
+  it "generates correct sql for :symbol.not_in" do
+    actual = Mixin.where( :type.not_in => ["thing"] ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" NOT IN ('thing')"
+    expect(actual).to eq(expected)
+  end
+
+  it "generates correct sql for .where.not( :symbol.in => [5] )" do
+    actual = Mixin.where.not( :type.in => ["thing"] ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" NOT IN ('thing')"
+    expect(actual).to eq(expected)
+  end
+
+  it "generates correct sql for :symbol.gteq_all" do
+    pending "this does not work."
+    actual = Mixin.where( :type.gteq_all => [0,1,2] ).to_sql 
+    expected = "SELECT \"mixins\".* FROM \"mixins\" WHERE \"mixins\".\"type\" >= 2"
+    expect(actual).to eq(expected)
+  end
+
   # it "generates correct sql for :symbol => like thing" do
   #   actual = Mixin.where( ["type LIKE ?", "%thing%"] ).to_sql 
   #   # actual = Mixin.where( :type => "%thing%" ).to_sql 
